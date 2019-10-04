@@ -1,8 +1,11 @@
 from socket import *
 import time
+import string, random
 import _thread as thread
 MSGID = 1
-
+message_size = 128
+info_size = 12
+send_size = message_size - info_size
 
 
 def get_id():
@@ -20,7 +23,9 @@ def start_up():
     s.listen(0)
     client,  address = s.accept()
     data = "hello"
-    send_message(client, "Hello")
+    message = ''.join(random.choice(string.ascii_lowercase) for _ in range(300))
+    print(message)
+    send_message(client, message)
     time.sleep(1)
     s.close()
 
@@ -31,16 +36,17 @@ def get_ip_address():  # using google to obtain real ip, google most reliable ho
     return s.getsockname()[0]
 
 
-#128, first 16 are info
+#128, first 16 are info. MSGID, TOTAL, CURRENT
 def send_message(s, message):
     data = message.encode('utf-8')
     length = (len(data))
-    messages = (length // (128-12)) + 1
+    messages = (length // send_size) + 1
     id = get_id()
     info = int_to_bytes(id) + int_to_bytes(messages)
     for i in range(messages):
         i_info = info + int_to_bytes(i + 1)
-        data = i_info + message.encode('utf-8')
+        data = i_info + message[i*send_size: i*send_size + send_size-1].encode('utf-8')
+        print(data)
         s.send(data)
     return
 
