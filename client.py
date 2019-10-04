@@ -1,13 +1,14 @@
 import socket
+from parseMessages import ParseMessages
 
 class ReceiveMessages:
-	def WaitForMessage(self):
+	@staticmethod
+	def WaitForMessage(host="", port=697):
 		s = socket.socket()
 		host = "72.79.65.14"
 		port = 697
-		receivedMessage = []
 
 		while True:
 			s.connect((host, port))
-			receivedMessage.append(s.accept(1024))
+			ParseMessages.Parse(s.recv(1024))
 			s.close()
