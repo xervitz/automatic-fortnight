@@ -1,6 +1,8 @@
 from socket import *
+import time
 import _thread as thread
-MSGID = 0
+MSGID = 1
+
 
 
 def get_id():
@@ -19,6 +21,7 @@ def start_up():
     client,  address = s.accept()
     data = "hello"
     send_message(client, "Hello")
+    time.sleep(1)
     s.close()
 
 
@@ -32,11 +35,11 @@ def get_ip_address():  # using google to obtain real ip, google most reliable ho
 def send_message(s, message):
     data = message.encode('utf-8')
     length = (len(data))
-    messages = length // 128
+    messages = (length // (128-12)) + 1
     id = get_id()
     info = int_to_bytes(id) + int_to_bytes(messages)
     for i in range(messages):
-        i_info = info + int_to_bytes(i)
+        i_info = info + int_to_bytes(i + 1)
         data = i_info + message.encode('utf-8')
         s.send(data)
     return
@@ -50,4 +53,5 @@ def int_from_bytes(xbytes: bytes) -> int:
     return int.from_bytes(xbytes, 'big')
 
 
+#send_message(None, "hello")
 start_up()
