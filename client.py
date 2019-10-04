@@ -1,9 +1,13 @@
 import socket
 
-s = socket.socket()
-host = 72.79.65.14
-port = 25565
+class RecieveMessages:
+	def 
+	s = socket.socket()
+	host = "72.79.65.14"
+	port = 697
+	recievedMessage = []
 
-s.connect((host, port))
-print s.recv(1024)
-s.close()
+	while True:
+		s.connect((host, port))
+		recievedMessage.append(s.accept(1024))
+		s.close()
