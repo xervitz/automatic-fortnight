@@ -28,6 +28,7 @@ def start_up():
     print(message)
     send_message(client, message)
     time.sleep(1)
+    client.close()
     s.close()
 
 
@@ -63,5 +64,5 @@ def int_to_bytes(x: int) -> bytes:
 def int_from_bytes(xbytes: bytes) -> int:
     return int.from_bytes(xbytes, 'big')
 
-
-start_up()
+while True:
+    start_up()
