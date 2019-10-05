@@ -27,7 +27,7 @@ class ReceiveMessages:
                 messDic[messInfo[0]] = message
 
             mess = s.recv(messInfo[3])
-            print(messInfo[2], "/", messInfo[1], " Message ID: ", messInfo[0])
+            print(messInfo[2], "/", messInfo[1], " Message ID: ", messInfo[0], " Coming in with ", messInfo[3], " characters")
             messDic[messInfo[0]][messInfo[2] - 1] = mess.decode('UTF-8')
             if None not in messDic[messInfo[0]]:
                 break
