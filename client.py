@@ -12,28 +12,31 @@ class ReceiveMessages:
 
         s.connect((host, port))
 
-        mess = s.recv(4)
-
-        messInfo = []
-        for c in mess:
-            messInfo.append(c)
-
-        message = [None] * (messInfo[1])
-        messDic[messInfo[0]] = message
-
         while True:
-            mess = s.recv(messInfo[3])
-            print(messInfo[2], "/", messInfo[1])
-            message[messInfo[2] - 1] = mess.decode('UTF-8')
-            if None not in message:
-                break
             mess = s.recv(4)
             messInfo = []
             for c in mess:
                 messInfo.append(c)
+
+            if len(messInfo) != 4:
+                print("Invalid message received")
+                continue
+
+            if messInfo[0] not in messDic:
+                message = [None] * (messInfo[1])
+                messDic[messInfo[0]] = message
+
+            mess = s.recv(messInfo[3])
+            print(messInfo[2], "/", messInfo[1], " Message ID: ", messInfo[0])
+            messDic[messInfo[0]][messInfo[2] - 1] = mess.decode('UTF-8')
+            if None not in messDic[messInfo[0]]:
+                break
+
         output = ""
-        for m in message:
-            output += m
+        for key in messDic:
+            for m in messDic[key]:
+                output += m
+            output += "\n"
 
         print(output)
         s.close()
