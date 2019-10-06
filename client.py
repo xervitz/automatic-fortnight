@@ -29,14 +29,16 @@ class ReceiveMessages:
             mess = s.recv(messInfo[3])
             print(messInfo[2], "/", messInfo[1], " Message ID: ", messInfo[0], " Coming in with ", messInfo[3], " characters")
             messDic[messInfo[0]][messInfo[2] - 1] = mess.decode('UTF-8')
-            if None not in messDic[messInfo[0]]:
-                break
+            for key in messDic:
+                if None not in messDic[key]:
+                    ReceiveMessages.print_message(messDic[key])
 
+    @staticmethod
+    def print_message(message):
         output = ""
-        for key in messDic:
-            for m in messDic[key]:
-                output += m
-            output += "\n"
+        for m in message:
+            output += m
+        output += "\n"
 
         print(output)
         s.close()
