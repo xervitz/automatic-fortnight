@@ -1,0 +1,9 @@
+This is a message file, to try reading and sending and reconstructing files.
+    Tab at the start
+Tab at the end
+is it all there?
+
+extra space above and below
+
+.\n
+hm.?
